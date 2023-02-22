@@ -1,18 +1,14 @@
 const inquirer = require('inquirer');
 const fs = require('fs');
-// const generateMarkdown = require('./src/generateHTML')
-
-// TODO: Create a function to write README file
-// function writeToFile(fileName, data) {
-//     fs.writeFile(fileName, data, (err) =>
-//     err ? console.log(err) : console.log('Successfully created README.md!')
-//     );
-// };
+const generateHTML = require('./src/generateHTML');
+const Manager = require('./lib/Manager');
+const Engineer = require('./lib/Engineer');
+const Intern = require('./lib/Intern');
 
 const managerQuestions = [
     {
         type: 'input',
-        name: 'managerName',
+        name: 'employeeName',
         message: "What is the manager name?"
     },
     {
@@ -22,7 +18,7 @@ const managerQuestions = [
     },
     {
         type: 'input',
-        name: 'managerEmail',
+        name: 'employeeEmail',
         message: "What is the manager email address?",
     },
     {
@@ -43,6 +39,12 @@ const employeeQuestions = [
         type: 'input',
         name: 'employeeName',
         message: "What is the employee's name?",
+        when: (answers) => answers.employeeType !== 'Done'
+    },
+    {
+        type: 'input',
+        name: 'employeeId',
+        message: "What is the employee's id?",
         when: (answers) => answers.employeeType !== 'Done'
     },
     {
@@ -68,8 +70,16 @@ const employeeQuestions = [
 const questionAnswers = [];
 
 async function promptManagerQuestions() {
+    //surroundin try catch
+    try {
     const answers = await inquirer.prompt(managerQuestions);
-    questionAnswers.push(answers);
+    questionAnswers.push(new Manager(answers.employeeName, answers.managerId, answers.employeeEmail, answers.managerOffice));
+    } catch (error) {
+
+    }
+    // questionAnswers.push(answers);
+    // questionAnswers.push(new Manager(answers.employeeName, answers.managerId, answers.employeeEmail, answers.managerOffice));
+
 }
 
 
@@ -77,6 +87,12 @@ async function promptEmployeeQuestions() {
     const answers = await inquirer.prompt(employeeQuestions);
     return answers;
 }
+
+function writeToFile(fileName, data) {
+    fs.writeFile(fileName, data, (err) =>
+    err ? console.log(err) : console.log('Successfully created index.html!')
+    );
+};
 
 async function init() {
     await promptManagerQuestions();
@@ -86,15 +102,20 @@ async function init() {
         const answers = await promptEmployeeQuestions();
 
         if(await answers.employeeType !== 'Done') {
-            questionAnswers.push(answers);
+            // questionAnswers.push(answers);
+            if(answers.employeeType === 'Engineer') {
+                questionAnswers.push(new Engineer(answers.employeeName, answers.employeeId, answers.employeeEmail, answers.employeeGithub));
+            }
+            if(answers.employeeType === 'Intern') {
+                questionAnswers.push(new Intern(answers.employeeName, answers.employeeId, answers.employeeEmail, answers.employeeSchool));
+            }
         } else {
             keepAsking = false;
         }
     }
     console.log(questionAnswers);
-    //     // const readMeContent = generateMarkdown(answers);
-    //     // writeToFile('README.md', readMeContent);
-    // });
+        const HTMLContent = generateHTML(questionAnswers);
+        writeToFile('./dist/index.html', HTMLContent);
 };
 
 // Function call to initialize app
