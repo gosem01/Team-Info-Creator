@@ -70,16 +70,12 @@ const employeeQuestions = [
 const questionAnswers = [];
 
 async function promptManagerQuestions() {
-    //surroundin try catch
     try {
-    const answers = await inquirer.prompt(managerQuestions);
-    questionAnswers.push(new Manager(answers.employeeName, answers.managerId, answers.employeeEmail, answers.managerOffice));
+        const answers = await inquirer.prompt(managerQuestions);
+        questionAnswers.push(new Manager(answers.employeeName, answers.managerId, answers.employeeEmail, answers.managerOffice));
     } catch (error) {
-
+        console.log(error);
     }
-    // questionAnswers.push(answers);
-    // questionAnswers.push(new Manager(answers.employeeName, answers.managerId, answers.employeeEmail, answers.managerOffice));
-
 }
 
 
@@ -102,7 +98,6 @@ async function init() {
         const answers = await promptEmployeeQuestions();
 
         if(await answers.employeeType !== 'Done') {
-            // questionAnswers.push(answers);
             if(answers.employeeType === 'Engineer') {
                 questionAnswers.push(new Engineer(answers.employeeName, answers.employeeId, answers.employeeEmail, answers.employeeGithub));
             }
@@ -113,9 +108,8 @@ async function init() {
             keepAsking = false;
         }
     }
-    console.log(questionAnswers);
-        const HTMLContent = generateHTML(questionAnswers);
-        writeToFile('./dist/index.html', HTMLContent);
+    const HTMLContent = generateHTML(questionAnswers);
+    writeToFile('./dist/index.html', HTMLContent);
 };
 
 // Function call to initialize app

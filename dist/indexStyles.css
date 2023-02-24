@@ -21,6 +21,7 @@ body div.card {
     max-width: 300px;
     min-height: 300px;
     max-height: 300px;
+    padding-bottom: 20px;
 }
 
 .card-content {
@@ -31,12 +32,17 @@ body div.card {
 }
 
 div.card-content p {
-    margin-top: 7px;
+    border-bottom: 1px lightgrey solid;
+    padding-bottom: 10px;
 }
 
 div.card-content p:first-of-type {
     border-bottom: 1px grey solid;
     padding-bottom: 10px;
+}
+
+div.card-content p:last-of-type {
+    margin-bottom: 0;
 }
 
 h2 {

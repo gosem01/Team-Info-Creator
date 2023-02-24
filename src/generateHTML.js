@@ -1,8 +1,6 @@
 function generateCards(data) {
     let cardsInfo = "";
 
-    console.log(data.length)
-
     for(let i = 0; i < data.length; i++) {
         cardsInfo += `<div class='card'>
                         <h2>
@@ -12,17 +10,17 @@ function generateCards(data) {
                             ${data[i].getRole() === 'Engineer' ? '<i class="fa-solid fa-glasses"></i>'+data[i].getRole() : ''}
                             ${data[i].getRole() === 'Intern' ? '<i class="fa-solid fa-user-graduate"></i>'+data[i].getRole() : ''}
                         </h2>
-                        <div class='card-content'>
-                        <p>
-                            ID: ${data[i].getId()}
-                        </p>
-                        <p>
-                            Email: <a href="mailto:${data[i].getEmail()}">${data[i].getEmail()}</a>
-                        </p>
-                            ${data[i].getRole() === 'Manager' ? '<p>Office number: '+data[i].getOfficeNumber()+'</p>' : ''}
-                            ${data[i].getRole() === 'Engineer' ? '<p>Github: <a href="https://github.com/'+data[i].getGithub()+'">'+ data[i].getGithub() +'</a>'+'</p>' : ''}
-                            ${data[i].getRole() === 'Intern' ? '<p>School: '+data[i].getSchool()+'</p>' : ''}
-                        </div>
+                            <div class='card-content'>
+                                <p>
+                                    ID: ${data[i].getId()}
+                                </p>
+                                <p>
+                                    Email: <a href="mailto:${data[i].getEmail()}">${data[i].getEmail()}</a>
+                                </p>
+                                    ${data[i].getRole() === 'Manager' ? '<p>Office number: '+data[i].getOfficeNumber()+'</p>' : ''}
+                                    ${data[i].getRole() === 'Engineer' ? '<p>Github: <a href="https://github.com/'+data[i].getGithub()+'">'+ data[i].getGithub() +'</a>'+'</p>' : ''}
+                                    ${data[i].getRole() === 'Intern' ? '<p>School: '+data[i].getSchool()+'</p>' : ''}
+                            </div>
                         </div>`;
     }
     return cardsInfo;
@@ -44,7 +42,7 @@ function generateHTML(data){
         <header>My Team</header>
         <body>
             <div class='container'>
-            ${generateCards(data)}
+                ${generateCards(data)}
             </div>
         </body>
         </html>
